@@ -1,9 +1,6 @@
 import { BookOutlined, GroupOutlined, UserOutlined } from "@ant-design/icons";
-import { Button, Col, Row, Spin } from "antd";
-import React, { useEffect } from "react";
-import { useState } from "react";
-import { Link } from "react-router-dom";
-import axios from "axios";
+import { Col, Row, Spin } from "antd";
+import { useState, useEffect } from "react";
 
 type PlatformStatsType = {
   total_students: number;
@@ -15,6 +12,21 @@ type PlatformStatsType = {
 export default function AdminDashboard() {
   const [platformStats, setPlatformStats] = useState<PlatformStatsType>();
   const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    fetchPlatformStats();
+  }, []);
+
+  const fetchPlatformStats = async () => {
+    setIsLoading(true);
+    setPlatformStats({
+      total_students: 0,
+      total_teachers: 0,
+      total_subjects: 0,
+      total_batches: 0,
+    });
+    setIsLoading(false);
+  };
 
   return (
     <div>
