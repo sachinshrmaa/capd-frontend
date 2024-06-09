@@ -1,5 +1,5 @@
-import { Button, Col, Row, Select, Table, Tag } from "antd";
-import { useState } from "react";
+import { Button, Col, Row, Table } from "antd";
+import { useEffect, useState } from "react";
 import { PlusCircleOutlined } from "@ant-design/icons";
 
 const columns = [
@@ -28,6 +28,16 @@ const columns = [
 export default function AdminSubjects() {
   const [isLoading, setIsLoading] = useState(false);
   const [subjectsList, setSubjectsList] = useState([]);
+
+  useEffect(() => {
+    fetchSubjects();
+  }, []);
+
+  const fetchSubjects = async () => {
+    setIsLoading(true);
+    setSubjectsList([]);
+    setIsLoading(false);
+  };
 
   return (
     <div>
