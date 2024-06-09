@@ -7,8 +7,13 @@ import AdminStudents from "./admin/AdminStudents";
 import AdminTeachers from "./admin/AdminTeachers";
 import AdminSubjects from "./admin/AdminSubjects";
 import AdminBatches from "./admin/AdminBatches";
+import App from "./App";
 
 const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <App />,
+  },
   {
     path: "/login",
     element: <Login />,
