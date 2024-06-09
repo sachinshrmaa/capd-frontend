@@ -1,7 +1,15 @@
+import useUserContext from "./context/useUserContext";
+
 export default function App() {
+  const { user, setUser } = useUserContext();
   return (
     <div>
-      <h1>Comprehensive attendance and performace dashboard</h1>
+      <p>User: {user ? user.name : "No user logged in"}</p>
+      <button
+        onClick={() => setUser({ name: "Jane Doe", email: "jane@example.com" })}
+      >
+        Set User
+      </button>
     </div>
   );
 }
