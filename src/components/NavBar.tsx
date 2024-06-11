@@ -1,20 +1,22 @@
 import { Dropdown } from "antd";
 import { LogoutOutlined, UserOutlined } from "@ant-design/icons";
 import Link from "antd/es/typography/Link";
-// import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 // import axios from "axios";
-import useUserContext from "../context/useUserContext";
+// import useUserContext from "../context/useUserContext";
 
 export default function NavBar() {
-  // const navigate = useNavigate();
-  const { user } = useUserContext();
+  const navigate = useNavigate();
+  const user = localStorage.getItem("name");
 
-  const handleLogout = async () => {};
+  const handleLogout = async () => {
+    navigate("/login");
+  };
 
   const items = [
     {
       key: "1",
-      label: <span>{user && user.name}</span>,
+      label: <span>{user}</span>,
       icon: <UserOutlined className="mr-2" />,
     },
     {

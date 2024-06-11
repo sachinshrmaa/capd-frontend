@@ -28,7 +28,7 @@ export default function Login() {
       if (res.data.user.role === "Teacher") {
         navigate("/teacher/dashboard");
       } else if (res.data.user.role === "Student") {
-        navigate("/admin/dashboard");
+        navigate("/student/dashboard");
       } else if (res.data.user.role === "Admin") {
         navigate("/admin/dashboard");
       }

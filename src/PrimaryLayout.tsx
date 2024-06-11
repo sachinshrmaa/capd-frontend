@@ -8,6 +8,13 @@ import AdminTeachers from "./admin/AdminTeachers";
 import AdminSubjects from "./admin/AdminSubjects";
 import AdminBatches from "./admin/AdminBatches";
 import App from "./App";
+import TeacherDashboard from "./teacher/TeacherDashboard";
+import TeacherGuardian from "./teacher/TeacherGuardian";
+import TeacherSubjects from "./teacher/TeacherSubjects";
+import TeacherDashboardLayout from "./teacher/TeacherDashboardLayout";
+import StudentDashboardLayout from "./student/StudentDashboardLayout";
+import StudentDashboard from "./student/StudentDashboard";
+import StudentAttendance from "./student/StudentAttendance";
 
 const router = createBrowserRouter([
   {
@@ -41,6 +48,39 @@ const router = createBrowserRouter([
       {
         path: "batches",
         element: <AdminBatches />,
+      },
+    ],
+  },
+  {
+    path: "/teacher",
+    element: <TeacherDashboardLayout />,
+    children: [
+      {
+        path: "dashboard",
+        element: <TeacherDashboard />,
+      },
+      {
+        path: "guardian",
+        element: <TeacherGuardian />,
+      },
+
+      {
+        path: "subjects",
+        element: <TeacherSubjects />,
+      },
+    ],
+  },
+  {
+    path: "/student",
+    element: <StudentDashboardLayout />,
+    children: [
+      {
+        path: "dashboard",
+        element: <StudentDashboard />,
+      },
+      {
+        path: "attendance",
+        element: <StudentAttendance />,
       },
     ],
   },
