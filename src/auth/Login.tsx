@@ -3,10 +3,12 @@ import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { LockOutlined, UserOutlined } from "@ant-design/icons";
+import useUserContext from "../context/useUserContext";
 
 export default function Login() {
   const [isLoading, setIsLoading] = useState(false);
   const [notification, notificationHolder] = message.useMessage();
+  const { setUser } = useUserContext();
 
   const navigate = useNavigate();
 
@@ -23,18 +25,21 @@ export default function Login() {
         { withCredentials: true }
       );
 
-      if (res.data.user.role === "TEACHER") {
+      if (res.data.user.role === "Teacher") {
         navigate("/teacher/dashboard");
-      } else if (res.data.user.role === "STUDENT") {
-        navigate("/student/dashboard");
+      } else if (res.data.user.role === "Student") {
+        navigate("/admin/dashboard");
+      } else if (res.data.user.role === "Admin") {
+        navigate("/admin/dashboard");
       }
 
       if (res.data.message === "Logged in successfully") {
+        setUser(res.data.user);
         localStorage.setItem("name", res.data.user.name);
         localStorage.setItem("email", res.data.user.email);
-        localStorage.setItem("phone", res.data.user.phone);
         localStorage.setItem("role", res.data.user.role);
       }
+
       setIsLoading(false);
     } catch (error) {
       notification.error({

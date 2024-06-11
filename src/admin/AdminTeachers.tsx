@@ -1,6 +1,9 @@
-import { Button, Col, Row, Table } from "antd";
+import { Button, Col, Form, Row, Select, Table, message } from "antd";
 import { useEffect, useState } from "react";
 import { PlusCircleOutlined } from "@ant-design/icons";
+import axios from "axios";
+
+const { Option } = Select;
 
 const columns = [
   {
@@ -9,38 +12,69 @@ const columns = [
     key: "name",
   },
   {
-    title: "Batch",
-    dataIndex: "batch_code",
-    key: "batch_code",
+    title: "Contact",
+    dataIndex: "email",
+    key: "email",
   },
-  {
-    title: "Department",
-    dataIndex: "department_name",
-    key: "department_name",
-  },
-  {
-    title: "Action",
-    key: "action",
-    // render: (text, record) => <Button>Edit</Button>,
-  },
+  // {
+  //   title: "Action",
+  //   key: "action",
+  //   // render: (text, record) => <Button>Edit</Button>,
+  // },
 ];
 
 export default function AdminTeachers() {
+  const [notification, notificationHolder] = message.useMessage();
   const [isLoading, setIsLoading] = useState(false);
   const [teachersList, setTeachersList] = useState([]);
+  const [departments, setDepartments] = useState([]);
 
   useEffect(() => {
-    fetchTeachers();
+    fetchDepartments();
   }, []);
 
-  const fetchTeachers = async () => {
+  const fetchDepartments = async () => {
+    try {
+      const res = await axios.get(
+        "http://localhost:3000/api/v1/academics/list-departments",
+        { withCredentials: true }
+      );
+      setDepartments(res?.data?.departments);
+    } catch (error) {
+      notification.error({
+        type: "error",
+        content: "Couldn't fetch departments! Please try again.",
+      });
+      console.log(error);
+    }
+  };
+
+  const fetchTeachers = async (e: any) => {
     setIsLoading(true);
-    setTeachersList([]);
-    setIsLoading(false);
+    let payload = {
+      department: e.department,
+    };
+    try {
+      const res = await axios.post(
+        "http://localhost:3000/api/v1/teachers/list-teachers",
+        payload,
+        { withCredentials: true }
+      );
+      setTeachersList(res?.data?.teachers);
+      setIsLoading(false);
+    } catch (error) {
+      setIsLoading(false);
+      notification.error({
+        type: "error",
+        content: "Couldn't fetch teachers! Please try again.",
+      });
+      console.log(error);
+    }
   };
 
   return (
     <div>
+      {notificationHolder}
       <Row>
         <Col span={24} className="py-3">
           <div className="flex justify-between">
@@ -52,6 +86,39 @@ export default function AdminTeachers() {
               </Button>
             </div>
           </div>
+        </Col>
+
+        <Col span={24}>
+          <Form onFinish={fetchTeachers} layout="vertical">
+            <Row gutter={16}>
+              <Col span={6} className="pr-2">
+                <Form.Item
+                  label="Department"
+                  name="department"
+                  rules={[
+                    {
+                      required: true,
+                      message: "Please select a department",
+                    },
+                  ]}
+                >
+                  <Select placeholder="Select Department" allowClear>
+                    {departments.map((department: any) => (
+                      <Option value={department.name}>{department.name}</Option>
+                    ))}
+                  </Select>
+                </Form.Item>
+              </Col>
+
+              <Col span={6} className="pr-2">
+                <Form.Item>
+                  <Button type="primary" htmlType="submit" className="mt-7">
+                    Submit
+                  </Button>
+                </Form.Item>
+              </Col>
+            </Row>
+          </Form>
         </Col>
 
         <Col span={24} className="mt-6">
