@@ -38,6 +38,9 @@ export default function Login() {
         localStorage.setItem("name", res.data.user.name);
         localStorage.setItem("email", res.data.user.email);
         localStorage.setItem("role", res.data.user.role);
+        localStorage.setItem("rollNo", res.data.user?.roll_no);
+        localStorage.setItem("semesterId", res.data.user?.semester_id);
+        localStorage.setItem("departmentId", res.data.user?.department_id);
       }
 
       setIsLoading(false);
