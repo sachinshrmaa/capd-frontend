@@ -2,6 +2,7 @@ import { Button, Col, Form, Row, Select, Table, message } from "antd";
 import { useEffect, useState } from "react";
 import { PlusCircleOutlined } from "@ant-design/icons";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 const { Option } = Select;
 
@@ -107,10 +108,12 @@ export default function AdminStudents() {
           <div className="flex justify-between">
             <h1 className="font-bold text-lg mb-0">Students</h1>
             <div>
-              <Button type="primary" className="flex items-center h-10">
-                <PlusCircleOutlined className="text-lg mr-1" />
-                Add Student
-              </Button>
+              <Link to="/admin/students/add">
+                <Button type="primary" className="flex items-center h-10">
+                  <PlusCircleOutlined className="text-lg mr-1" />
+                  Add Student
+                </Button>
+              </Link>
             </div>
           </div>
         </Col>
@@ -140,8 +143,10 @@ export default function AdminStudents() {
                     }}
                     allowClear
                   >
-                    {departments.map((department:any) => (
-                      <Option value={department?.name}>{department.name}</Option>
+                    {departments.map((department: any) => (
+                      <Option value={department?.department_id}>
+                        {department.name}
+                      </Option>
                     ))}
                   </Select>
                 </Form.Item>
@@ -167,7 +172,7 @@ export default function AdminStudents() {
                     }
                     allowClear
                   >
-                    {batches.map((batch:any) => (
+                    {batches.map((batch: any) => (
                       <Option value={batch.name}>{batch.name}</Option>
                     ))}
                   </Select>

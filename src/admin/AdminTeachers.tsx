@@ -2,6 +2,7 @@ import { Button, Col, Form, Row, Select, Table, message } from "antd";
 import { useEffect, useState } from "react";
 import { PlusCircleOutlined } from "@ant-design/icons";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 const { Option } = Select;
 
@@ -80,10 +81,12 @@ export default function AdminTeachers() {
           <div className="flex justify-between">
             <h1 className="font-bold text-lg mb-0">Teachers</h1>
             <div>
-              <Button type="primary" className="flex items-center h-10">
-                <PlusCircleOutlined className="text-lg mr-1" />
-                Add Teachers
-              </Button>
+              <Link to="/admin/teachers/add">
+                <Button type="primary" className="flex items-center h-10">
+                  <PlusCircleOutlined className="text-lg mr-1" />
+                  Add Teachers
+                </Button>
+              </Link>
             </div>
           </div>
         </Col>

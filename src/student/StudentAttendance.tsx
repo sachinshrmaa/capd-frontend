@@ -41,10 +41,23 @@ export default function StudentAttendance() {
   const [subjectsList, setSubjectsList] = useState<SubjectListType[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [attendanceLog, setAttendanceLog] = useState<AttendanceLogType[]>([]);
+  // const [filteredLog, setFilteredLog] = useState<AttendanceLogType[]>([]);
 
   useEffect(() => {
     fetchSubjects();
   }, []);
+
+  // useEffect(() => {
+  //   handleFilter(appliedFilter);
+  // }, [appliedFilter]);
+
+  // const handleFilter = (status: string) => {
+  //   const filteredAttendance = attendanceLog.filter(
+  //     (log) => log.status === status
+  //   );
+
+  //   setFilteredLog(filteredAttendance);
+  // };
 
   const fetchSubjects = async () => {
     let payload = {
@@ -155,7 +168,11 @@ export default function StudentAttendance() {
                       { label: "Present", value: "Present" },
                       { label: "Absent", value: "Absent" },
                     ]}
-                    onChange={(value) => setAppliedFilter(value)}
+                    onChange={(value) => {
+                      setAppliedFilter(value);
+                      // handleFilter(appliedFilter);
+                    }}
+                    allowClear
                   />
                 </Form.Item>
               </Col>

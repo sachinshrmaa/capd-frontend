@@ -32,8 +32,18 @@ export default function AdminDashboardLayout() {
       icon: <BookOutlined />,
     },
     {
+      key: "7",
+      label: <span className="hidden sm:inline">Semesters</span>,
+      icon: <GroupOutlined />,
+    },
+    {
       key: "5",
       label: <span className="hidden sm:inline">Batches</span>,
+      icon: <GroupOutlined />,
+    },
+    {
+      key: "6",
+      label: <span className="hidden sm:inline">Departments</span>,
       icon: <GroupOutlined />,
     },
   ];
@@ -49,6 +59,10 @@ export default function AdminDashboardLayout() {
       navigate("/admin/subjects");
     } else if (e.key === "5") {
       navigate("/admin/batches");
+    } else if (e.key === "6") {
+      navigate("/admin/departments");
+    } else if (e.key === "7") {
+      navigate("/admin/semesters");
     }
   };
 

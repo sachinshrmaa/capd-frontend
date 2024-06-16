@@ -1,7 +1,7 @@
 import { Button, Col, Row, Table, message } from "antd";
 import { useEffect, useState } from "react";
-import { PlusCircleOutlined } from "@ant-design/icons";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 const columns = [
   {
@@ -25,7 +25,13 @@ const columns = [
   {
     title: "Action",
     key: "action",
-    render: () => <Button type="primary">Log attendance</Button>,
+    render: (record: any) => (
+      <Link
+        to={`log-attendance?subjectName=${record.subject_name}&subjectCode=${record.code}`}
+      >
+        <Button type="primary">Log attendance</Button>
+      </Link>
+    ),
   },
 ];
 

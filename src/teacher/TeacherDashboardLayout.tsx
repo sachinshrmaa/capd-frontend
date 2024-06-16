@@ -1,6 +1,7 @@
 import { Outlet, useNavigate } from "react-router-dom";
 import NavBar from "../components/NavBar";
 import {
+  BarChartOutlined,
   BookOutlined,
   DashboardOutlined,
   UserOutlined,
@@ -22,6 +23,12 @@ export default function TeacherDashboardLayout() {
     },
     {
       key: "3",
+      label: <span className="hidden sm:inline">View Attendance</span>,
+      icon: <BarChartOutlined />,
+    },
+
+    {
+      key: "4",
       label: <span className="hidden sm:inline">Teacher Guardian</span>,
       icon: <UserOutlined />,
     },
@@ -33,6 +40,8 @@ export default function TeacherDashboardLayout() {
     } else if (e.key === "2") {
       navigate("/teacher/subjects");
     } else if (e.key === "3") {
+      navigate("/teacher/subject/view-attendance");
+    } else if (e.key === "4") {
       navigate("/teacher/guardian");
     }
   };

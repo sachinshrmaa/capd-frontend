@@ -1,49 +1,68 @@
-import { Button, Col, Row, Table, message, Form, Select } from "antd";
+import { Button, Col, Row, Table, message, Form, Select, Dropdown } from "antd";
 import { useEffect, useState } from "react";
-import { PlusCircleOutlined } from "@ant-design/icons";
+import { MoreOutlined, PlusCircleOutlined } from "@ant-design/icons";
 import axios from "axios";
+import type { MenuProps } from "antd";
+import { Link } from "react-router-dom";
+import AssignSubjectTeacher from "./AssignSubjectTeacher";
 
 const { Option } = Select;
-
-const columns = [
-  {
-    title: "Subject Name",
-    dataIndex: "subject_name",
-    key: "name",
-  },
-  {
-    title: "Subject Code",
-    dataIndex: "code",
-    key: "code",
-  },
-  {
-    title: "Assigned Teacher",
-    dataIndex: "teacher_name",
-    key: "teacher_name",
-    // render: (record: any) => (
-    //   <span>{record.teacher_name === null ? "-" : record.teacher_name} </span>
-    // ),
-  },
-  {
-    title: "Action",
-    key: "action",
-    // render: (text, record) => <Button>Edit</Button>,
-  },
-];
 
 export default function AdminSubjects() {
   const [notification, notificationHolder] = message.useMessage();
   const [isLoading, setIsLoading] = useState(false);
   const [subjectsList, setSubjectsList] = useState([]);
   const [departments, setDepartments] = useState([]);
-  const [semesters, setSemesters] = useState([
+  const [semesters, setSemesters] = useState([]);
+  const [assignTeacher, setAssignTeacher] = useState(false);
+
+  const columns = [
     {
-      name: "Semester 7",
+      title: "Subject Name",
+      dataIndex: "subject_name",
+      key: "name",
     },
     {
-      name: "Semester 6",
+      title: "Subject Code",
+      dataIndex: "code",
+      key: "code",
     },
-  ]);
+    {
+      title: "Assigned Teacher",
+      dataIndex: "teacher_name",
+      key: "teacher_name",
+    },
+    {
+      title: "Action",
+      key: "action",
+      render: () => (
+        <Dropdown menu={{ items }} placement="bottomLeft" arrow>
+          <Button type="text">
+            <MoreOutlined />
+          </Button>
+        </Dropdown>
+      ),
+    },
+  ];
+
+  const items: MenuProps["items"] = [
+    {
+      key: "1",
+      label: (
+        <Link to="#" onClick={() => setAssignTeacher(true)}>
+          Assign Teacher
+        </Link>
+      ),
+    },
+    {
+      key: "2",
+      label: <Link to="/admin/subjects/edit">Edit</Link>,
+    },
+    {
+      key: "3",
+      label: <Link to="/admin/subjects/edit">Delete</Link>,
+    },
+  ];
 
   useEffect(() => {
     fetchDepartments();
@@ -65,11 +84,31 @@ export default function AdminSubjects() {
     }
   };
 
+  const fetchSemesters = async (dept: number) => {
+    let payload = {
+      department: dept,
+    };
+    try {
+      const res = await axios.post(
+        "http://localhost:3000/api/v1/academics/list-semesters",
+        payload,
+        { withCredentials: true }
+      );
+      setSemesters(res?.data?.semesters);
+    } catch (error) {
+      notification.error({
+        type: "error",
+        content: "Couldn't fetch semsters! Please try again.",
+      });
+      console.log(error);
+    }
+  };
+
   const fetchSubjects = async (e: any) => {
     setIsLoading(true);
     let payload = {
-      department: e.department,
-      semester: e.semester,
+      departmentId: e.department,
+      semesterId: e.semester,
     };
     try {
       const res = await axios.post(
@@ -97,10 +136,12 @@ export default function AdminSubjects() {
           <div className="flex justify-between">
             <h1 className="font-bold text-lg mb-0">Subjects</h1>
             <div>
-              <Button type="primary" className="flex items-center h-10">
-                <PlusCircleOutlined className="text-lg mr-1" />
-                Add Subjects
-              </Button>
+              <Link to="/admin/subjects/add">
+                <Button type="primary" className="flex items-center h-10">
+                  <PlusCircleOutlined className="text-lg mr-1" />
+                  Add Subjects
+                </Button>
+              </Link>
             </div>
           </div>
         </Col>
@@ -119,15 +160,22 @@ export default function AdminSubjects() {
                     },
                   ]}
                 >
-                  <Select placeholder="Select Department" allowClear>
+                  <Select
+                    placeholder="Select Department"
+                    onSelect={(value: any) => {
+                      fetchSemesters(value);
+                    }}
+                    allowClear
+                  >
                     {departments.map((department: any) => (
-                      <Option value={department?.name}>
+                      <Option value={department?.department_id}>
                         {department.name}
                       </Option>
                     ))}
                   </Select>
                 </Form.Item>
               </Col>
+
               <Col span={6} className="pr-2">
                 <Form.Item
                   label="Semester"
@@ -141,7 +189,9 @@ export default function AdminSubjects() {
                 >
                   <Select placeholder="Select Semester" allowClear>
                     {semesters.map((semester: any) => (
-                      <Option value={semester.name}>{semester.name}</Option>
+                      <Option value={semester.semester_id}>
+                        {semester.name}
+                      </Option>
                     ))}
                   </Select>
                 </Form.Item>
@@ -166,6 +216,10 @@ export default function AdminSubjects() {
           />
         </Col>
       </Row>
+      <AssignSubjectTeacher
+        isModalOpen={assignTeacher}
+        setIsModalOpen={setAssignTeacher}
+      />
     </div>
   );
 }

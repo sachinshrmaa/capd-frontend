@@ -7,7 +7,6 @@ import { Button, Col, Row, Spin } from "antd";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import useUserContext from "../context/useUserContext";
 
 type StudentOverallAttendanceType = {
   subjectName: string;
