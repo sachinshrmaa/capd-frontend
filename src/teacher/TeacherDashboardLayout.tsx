@@ -1,14 +1,14 @@
 import { Outlet, useNavigate } from "react-router-dom";
 import NavBar from "../components/NavBar";
 import {
+  BarChartOutlined,
   BookOutlined,
   DashboardOutlined,
-  GroupOutlined,
   UserOutlined,
 } from "@ant-design/icons";
 import { Col, Menu, Row } from "antd";
 
-export default function AdminDashboardLayout() {
+export default function TeacherDashboardLayout() {
   const navigate = useNavigate();
   const items = [
     {
@@ -18,51 +18,31 @@ export default function AdminDashboardLayout() {
     },
     {
       key: "2",
-      label: <span className="hidden sm:inline">Students</span>,
-      icon: <UserOutlined />,
-    },
-    {
-      key: "3",
-      label: <span className="hidden sm:inline">Teachers</span>,
-      icon: <UserOutlined />,
-    },
-    {
-      key: "4",
       label: <span className="hidden sm:inline">Subjects</span>,
       icon: <BookOutlined />,
     },
     {
-      key: "7",
-      label: <span className="hidden sm:inline">Semesters</span>,
-      icon: <GroupOutlined />,
+      key: "3",
+      label: <span className="hidden sm:inline">View Attendance</span>,
+      icon: <BarChartOutlined />,
     },
+
     {
-      key: "5",
-      label: <span className="hidden sm:inline">Batches</span>,
-      icon: <GroupOutlined />,
-    },
-    {
-      key: "6",
-      label: <span className="hidden sm:inline">Departments</span>,
-      icon: <GroupOutlined />,
+      key: "4",
+      label: <span className="hidden sm:inline">Teacher Guardian</span>,
+      icon: <UserOutlined />,
     },
   ];
 
   const handleNavigation = (e: any) => {
     if (e.key === "1") {
-      navigate("/admin/dashboard");
+      navigate("/teacher/dashboard");
     } else if (e.key === "2") {
-      navigate("/admin/students");
+      navigate("/teacher/subjects");
     } else if (e.key === "3") {
-      navigate("/admin/teachers");
+      navigate("/teacher/subject/view-attendance");
     } else if (e.key === "4") {
-      navigate("/admin/subjects");
-    } else if (e.key === "5") {
-      navigate("/admin/batches");
-    } else if (e.key === "6") {
-      navigate("/admin/departments");
-    } else if (e.key === "7") {
-      navigate("/admin/semesters");
+      navigate("/teacher/guardian");
     }
   };
 

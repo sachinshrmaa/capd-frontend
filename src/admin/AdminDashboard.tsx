@@ -1,12 +1,13 @@
 import { BookOutlined, GroupOutlined, UserOutlined } from "@ant-design/icons";
 import { Col, Row, Spin } from "antd";
+import axios from "axios";
 import { useState, useEffect } from "react";
 
 type PlatformStatsType = {
   total_students: number;
   total_teachers: number;
   total_subjects: number;
-  total_batches: number;
+  total_departments: number;
 };
 
 export default function AdminDashboard() {
@@ -19,13 +20,23 @@ export default function AdminDashboard() {
 
   const fetchPlatformStats = async () => {
     setIsLoading(true);
-    setPlatformStats({
-      total_students: 0,
-      total_teachers: 0,
-      total_subjects: 0,
-      total_batches: 0,
-    });
-    setIsLoading(false);
+    try {
+      const res = await axios.get(
+        "http://localhost:3000/api/v1/academics/platform-stats",
+        { withCredentials: true }
+      );
+      setPlatformStats({
+        total_students: Number(res?.data?.stats[0]?.total_students),
+        total_teachers: Number(res?.data?.stats[0]?.total_teachers),
+        total_subjects: Number(res?.data?.stats[0]?.total_subjects),
+        total_departments: Number(res?.data?.stats[0]?.total_departments),
+      });
+
+      setIsLoading(false);
+    } catch (error: any) {
+      setIsLoading(false);
+      console.log(error.message);
+    }
   };
 
   return (
@@ -79,11 +90,11 @@ export default function AdminDashboard() {
           <Col span={12}>
             <div className="bg-slate-700 rounded-lg text-white p-6 flex items-center mt-6">
               <h1 className="px-6 py-10 pr-14 text-2xl font-bold">
-                {platformStats?.total_batches}
+                {platformStats?.total_departments}
               </h1>
               <div>
                 <GroupOutlined className="text-3xl font-bold mb-3" />
-                <p className="text-lg">Total Batches</p>
+                <p className="text-lg">Total Departments</p>
               </div>
             </div>
           </Col>
