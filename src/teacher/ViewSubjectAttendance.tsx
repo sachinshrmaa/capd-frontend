@@ -67,7 +67,7 @@ export default function ViewSubjectAttendance() {
     setIsLoading(true);
     try {
       const res = await axios.get(
-        "http://localhost:3000/api/v1/teachers/list-teacher-subjects",
+        "https://capd-backend.onrender.com/api/v1/teachers/list-teacher-subjects",
         { withCredentials: true }
       );
       setSubjectsList(res?.data?.subjects);
@@ -89,7 +89,7 @@ export default function ViewSubjectAttendance() {
     try {
       setIsLoading(true);
       const res = await axios.post(
-        "http://localhost:3000/api/v1/attendance/subject-overall-attendance",
+        "https://capd-backend.onrender.com/api/v1/attendance/subject-overall-attendance",
         payload,
         { withCredentials: true }
       );

@@ -9,7 +9,7 @@
 //   useEffect(() => {
 //     const checkAuth = async () => {
 //       try {
-//         const res = await axios.get("http://localhost:3000/api/v1/auth", {
+//         const res = await axios.get("https://capd-backend.onrender.com/api/v1/auth", {
 //           withCredentials: true,
 //         });
 //         setRole(res?.data?.user?.role);
@@ -54,9 +54,12 @@ export const ProtectedRoute = ({
   useEffect(() => {
     const checkAuth = async () => {
       try {
-        const res = await axios.get("http://localhost:3000/api/v1/auth", {
-          withCredentials: true,
-        });
+        const res = await axios.get(
+          "https://capd-backend.onrender.com/api/v1/auth",
+          {
+            withCredentials: true,
+          }
+        );
         setRole(res?.data?.user?.role);
       } catch (error: any) {
         if (error.response?.status === 401) {

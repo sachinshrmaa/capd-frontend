@@ -17,7 +17,7 @@ export default function AddDepartment() {
       setIsLoading(true);
       // Add the department
       const res = await axios.post(
-        "http://localhost:3000/api/v1/academics/add-department",
+        "https://capd-backend.onrender.com/api/v1/academics/add-department",
         payload,
         { withCredentials: true }
       );

@@ -56,7 +56,7 @@ export default function AddWards() {
     try {
       setIsLoading(true);
       const res = await axios.post(
-        "http://localhost:3000/api/v1/teachers/add-teacher-wards",
+        "https://capd-backend.onrender.com/api/v1/teachers/add-teacher-wards",
         payload,
         { withCredentials: true }
       );

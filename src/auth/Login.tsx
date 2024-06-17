@@ -20,7 +20,7 @@ export default function Login() {
     try {
       setIsLoading(true);
       const res = await axios.post(
-        "http://localhost:3000/api/v1/auth/login",
+        "https://capd-backend.onrender.com/api/v1/auth/login",
         payload,
         { withCredentials: true }
       );

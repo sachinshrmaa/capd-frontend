@@ -22,7 +22,7 @@ export default function AdminDashboard() {
     setIsLoading(true);
     try {
       const res = await axios.get(
-        "http://localhost:3000/api/v1/academics/platform-stats",
+        "https://capd-backend.onrender.com/api/v1/academics/platform-stats",
         { withCredentials: true }
       );
       setPlatformStats({
