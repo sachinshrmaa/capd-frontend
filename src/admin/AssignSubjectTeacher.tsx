@@ -1,58 +1,51 @@
-import { Form, Modal, Select } from "antd";
+import { Button, Form, Modal, Select } from "antd";
 import axios from "axios";
-import { useEffect, useState } from "react";
 
 type AssignSubjectTeacherProps = {
   isModalOpen: boolean;
   setIsModalOpen: (e: boolean) => void;
+  teachers: any[];
+  subjectProp: any;
 };
 
 export default function AssignSubjectTeacher({
   isModalOpen,
   setIsModalOpen,
+  teachers,
+  subjectProp,
 }: AssignSubjectTeacherProps) {
-  const [teachers, setTeachers] = useState([]);
-
-  useEffect(() => {
-    fetchTeachers();
-  }, []);
-
-  const fetchTeachers = async () => {
-    let payload = { department: "Computer Engineering" };
+  const handleAssignTeacher = async (e: any) => {
+    let payload = {
+      subjectId: subjectProp.subjectId,
+      teacherId: e.teacherId,
+    };
     try {
       const res = await axios.post(
-        "http://localhost:3000/api/v1/teachers/list-teachers",
+        "http://localhost:3000/api/v1/teachers/assign-subject-teacher",
         payload,
         { withCredentials: true }
       );
-
-      setTeachers(res?.data?.teachers);
+      console.log(res);
+      setIsModalOpen(false);
     } catch (error: any) {
+      setIsModalOpen(false);
       console.log(error.message);
     }
-  };
-
-  const handleOk = () => {
-    console.log("assign teacher");
-    setIsModalOpen(false);
   };
 
   return (
     <Modal
       title="Assign Subject Teacher"
       open={isModalOpen}
-      onOk={handleOk}
       onCancel={() => setIsModalOpen(false)}
-      okText="Assign"
+      footer={null}
     >
-      <Form layout="vertical">
-        <Form.Item label="Select Subject" name="subjectId">
-          <Select placeholder="Select Subject">
-            <Select.Option>Abse</Select.Option>
-          </Select>
-        </Form.Item>
-
-        <Form.Item label="Select Teacher" name="teacherId">
+      <Form layout="vertical" onFinish={handleAssignTeacher}>
+        <Form.Item
+          label="Select Teacher"
+          name="teacherId"
+          rules={[{ required: true }]}
+        >
           <Select placeholder="Select Teacher">
             {teachers.map((teacher: any) => (
               <Select.Option value={teacher.teacher_id}>
@@ -60,6 +53,12 @@ export default function AssignSubjectTeacher({
               </Select.Option>
             ))}
           </Select>
+        </Form.Item>
+
+        <Form.Item>
+          <Button type="primary" htmlType="submit">
+            Assign
+          </Button>
         </Form.Item>
       </Form>
     </Modal>

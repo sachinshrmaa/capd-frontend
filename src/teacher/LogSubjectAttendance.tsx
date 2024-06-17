@@ -1,4 +1,4 @@
-import { Button, Table } from "antd";
+import { Button, Table, message } from "antd";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
@@ -23,21 +23,28 @@ type StudentListType = {
   name: string;
 };
 
+type StudentLogType = {
+  roll_no: string;
+};
+
 function useQuery() {
   return new URLSearchParams(useLocation().search);
 }
 
 export default function LogSubjectAttendance() {
-  // const [toastNotification, toastNotificationHolder] = message.useMessage();
+  const [toastNotification, toastNotificationHolder] = message.useMessage();
   let query = useQuery();
   const [isLoading, setIsLoading] = useState(false);
   const [studentsList, setStudentsList] = useState<StudentListType[]>([]);
   const [selectedRows, setSelectedRows] = useState([]);
-  // const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [totalStudentsCount, setTotalStudentsCount] = useState(0);
 
-  let subject = query.get("subjectName");
-  let subjectCode = query.get("subjectCode");
+  const [presentStudents, setPresentStudents] = useState<StudentLogType[]>([]);
+  const [absentStudents, setAbsentStudents] = useState<StudentLogType[]>([]);
+
+  let subjectId = query.get("subjectId");
+  let semesterId = query.get("semId");
 
   useEffect(() => {
     fetchStudents();
@@ -51,12 +58,25 @@ export default function LogSubjectAttendance() {
         "selectedRows: ",
         selectedRows
       );
+
+      const absentRollNos: StudentLogType[] = selectedRows.map(
+        (row: any) => row.roll_no
+      );
+      setAbsentStudents(absentRollNos);
+
+      const unselectedRows: StudentLogType[] = studentsList.filter(
+        (item) => !selectedRowKeys.includes(item.key)
+      );
+      const presentRollNos = unselectedRows.map((row: any) => row.roll_no);
+      setPresentStudents(presentRollNos);
+
+      console.log("unselectedRows: ", absentRollNos);
     },
   };
 
   const fetchStudents = async () => {
     let payload = {
-      subjectCode: subjectCode,
+      subjectId: subjectId,
     };
     try {
       setIsLoading(true);
@@ -80,15 +100,37 @@ export default function LogSubjectAttendance() {
     }
   };
 
-  const handleSubmit = async () => {};
+  const handleSubmit = async () => {
+    let payload = {
+      presentStudents: presentStudents,
+      absentStudents: absentStudents,
+      subjectId: subjectId,
+      semesterId: semesterId,
+    };
+    try {
+      setIsSubmitting(true);
+      const res = await axios.post(
+        "http://localhost:3000/api/v1/attendance/log-attendance",
+        payload,
+        { withCredentials: true }
+      );
+      toastNotification.success("Attendance logged successfully.");
+      console.log(res);
+      setIsSubmitting(false);
+    } catch (error: any) {
+      setIsSubmitting(false);
+      toastNotification.error("Failed to submit attendance.");
+      console.log(error.message);
+    }
+  };
 
   return (
     <div>
-      {/* {toastNotificationHolder} */}
+      {toastNotificationHolder}
       <div className="flex justify-between">
         <h1 className="font-bold text-lg mb-0">Log Attendance</h1>
 
-        <h1 className="font-bold text-lg mb-0">{subject}</h1>
+        {/* <h1 className="font-bold text-lg mb-0">{subject}</h1> */}
       </div>
 
       <div>
@@ -108,9 +150,8 @@ export default function LogSubjectAttendance() {
             </span>
             <span>Absent: {selectedRows.length} </span>
           </div>
-          <Button type="primary" onClick={handleSubmit}>
-            {/* {isSubmitting ? "Submitting" : "Submit"} */}
-            Submit
+          <Button type="primary" onClick={handleSubmit} loading={isSubmitting}>
+            {isSubmitting ? "Submitting" : "Submit"}
           </Button>
         </div>
       </div>

@@ -41,23 +41,27 @@ export default function StudentAttendance() {
   const [subjectsList, setSubjectsList] = useState<SubjectListType[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [attendanceLog, setAttendanceLog] = useState<AttendanceLogType[]>([]);
-  // const [filteredLog, setFilteredLog] = useState<AttendanceLogType[]>([]);
+  const [filteredLogs, setFilteredLogs] = useState<AttendanceLogType[]>([]);
 
   useEffect(() => {
     fetchSubjects();
   }, []);
 
-  // useEffect(() => {
-  //   handleFilter(appliedFilter);
-  // }, [appliedFilter]);
-
-  // const handleFilter = (status: string) => {
-  //   const filteredAttendance = attendanceLog.filter(
-  //     (log) => log.status === status
-  //   );
-
-  //   setFilteredLog(filteredAttendance);
-  // };
+  const handleFilter = (value: string) => {
+    if (value === "Present") {
+      const filteredData = attendanceLog.filter((log) => {
+        return log.status === "Present";
+      });
+      setFilteredLogs(filteredData);
+      console.log("present", filteredData);
+    } else {
+      const filteredData = attendanceLog.filter((log) => {
+        return log.status === "Absent";
+      });
+      console.log("absent", filteredData);
+      setFilteredLogs(filteredData);
+    }
+  };
 
   const fetchSubjects = async () => {
     let payload = {
@@ -108,91 +112,80 @@ export default function StudentAttendance() {
       </nav>
       <Row>
         <Col span={24}>
-          <div className="bg-slate-100 rounded-lg border mt-6 px-6 grid grid-cols-2">
-            <div className="my-4">
-              <Form layout="vertical" onFinish={fetchSubjectAttendance}>
+          <div className="bg-slate-100 rounded-lg border mt-4 py-6 px-6 grid grid-cols-2 gap-10 items-start">
+            <Form
+              layout="vertical"
+              onFinish={fetchSubjectAttendance}
+              className="grid grid-cols-3 items-end gap-4"
+            >
+              <div className="col-span-2">
+                <Form.Item
+                  label="Select Subject"
+                  name="subject"
+                  rules={[
+                    {
+                      required: true,
+                      message: "Please select a subject!",
+                    },
+                  ]}
+                >
+                  <Select placeholder="Select Subject" allowClear>
+                    {subjectsList.map((subject) => (
+                      <Select.Option value={subject.subject_id}>
+                        {subject.subject_name}
+                      </Select.Option>
+                    ))}
+                  </Select>
+                </Form.Item>
+              </div>
+
+              <div>
+                <Form.Item>
+                  <Button type="primary" className="px-6" htmlType="submit">
+                    Submit
+                  </Button>
+                </Form.Item>
+              </div>
+            </Form>
+
+            <div>
+              <Form layout="vertical">
                 <Row gutter={20}>
-                  <Col span={16}>
-                    <Form.Item
-                      label="Select Subject"
-                      name="subject"
-                      rules={[
-                        {
-                          required: true,
-                          message: "Please select a subject!",
-                        },
-                      ]}
-                    >
-                      <Select placeholder="Select Subject" allowClear>
-                        {subjectsList.map((subject) => (
-                          <Select.Option value={subject.subject_id}>
-                            {subject.subject_name}
-                          </Select.Option>
-                        ))}
-                      </Select>
-                    </Form.Item>
-                  </Col>
-                  <Col span={4}>
-                    <Form.Item>
-                      <Button
-                        type="primary"
-                        className="mt-[30px] px-6"
-                        htmlType="submit"
-                      >
-                        Submit
-                      </Button>
+                  <Col span={12}>
+                    <Form.Item label="Filter by status" name="status">
+                      <Select
+                        placeholder="Select status"
+                        options={[
+                          { label: "Present", value: "Present" },
+                          { label: "Absent", value: "Absent" },
+                        ]}
+                        onChange={(value) => {
+                          setAppliedFilter(value);
+                          handleFilter(value);
+                        }}
+                        allowClear
+                      />
                     </Form.Item>
                   </Col>
                 </Row>
               </Form>
-            </div>
 
-            {/* <div className="my-4">
-              <h1 className="font-bold text-lg mb-4">Overall Attendance</h1>
-               <p>Subject: {classDetails?.subject_name}</p>
-              <p>Total Classes: {classDetails?.total_classes}</p>
-              <p>Present Classes: {classDetails?.total_present}</p>
-              <p>Absent Classes: {classDetails?.total_absent}</p>
-            </div> */}
+              {appliedFilter.length != 0 && (
+                <div>
+                  <p className="mb-3">Applied Filter:</p>
+                  <Tag closable={true} onClose={() => setAppliedFilter("")}>
+                    {appliedFilter}
+                  </Tag>
+                </div>
+              )}
+            </div>
           </div>
         </Col>
 
-        <Col span={12} className="my-6">
-          <Form layout="vertical">
-            <Row gutter={20}>
-              <Col span={12}>
-                <Form.Item label="Filter by status" name="status">
-                  <Select
-                    placeholder="Select status"
-                    options={[
-                      { label: "Present", value: "Present" },
-                      { label: "Absent", value: "Absent" },
-                    ]}
-                    onChange={(value) => {
-                      setAppliedFilter(value);
-                      // handleFilter(appliedFilter);
-                    }}
-                    allowClear
-                  />
-                </Form.Item>
-              </Col>
-            </Row>
-          </Form>
-
-          {appliedFilter.length != 0 && (
-            <div>
-              <p className="mb-3">Applied Filter:</p>
-              <Tag closable={true} onClose={() => setAppliedFilter("")}>
-                {appliedFilter}
-              </Tag>
-            </div>
-          )}
-        </Col>
-
-        <Col span={24} className="mt-1 mb-6">
+        <Col span={24} className="my-8">
           <Table
             columns={columns}
-            dataSource={attendanceLog}
+            dataSource={appliedFilter.length > 0 ? filteredLogs : attendanceLog}
             loading={isLoading}
           />
         </Col>

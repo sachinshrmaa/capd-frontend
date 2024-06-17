@@ -49,7 +49,7 @@ export default function AdminDepartments() {
     <div>
       <Row>
         <Col span={24} className="py-3">
-          <div className="flex justify-between">
+          <div className="flex justify-between items-center">
             <h1 className="font-bold text-lg mb-0">Departments</h1>
             <div>
               <Link to="/admin/departments/add">

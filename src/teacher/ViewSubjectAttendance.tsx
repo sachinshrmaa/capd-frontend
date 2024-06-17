@@ -41,9 +41,27 @@ export default function ViewSubjectAttendance() {
   const [isLoading, setIsLoading] = useState(false);
   const [attendanceLog, setAttendanceLog] = useState<AttendanceLogType[]>([]);
 
+  const [filteredLogs, setFilteredLogs] = useState<AttendanceLogType[]>([]);
+
   useEffect(() => {
     fetchSubjects();
   }, []);
+
+  const handleFilter = (value: string) => {
+    if (value === "eligible") {
+      const filteredData = attendanceLog.filter((log) => {
+        return log.attendance_percentage >= 75;
+      });
+      setFilteredLogs(filteredData);
+      console.log("ele", filteredData);
+    } else {
+      const filteredData = attendanceLog.filter((log) => {
+        return log.attendance_percentage < 75;
+      });
+      console.log("non ele", filteredData);
+      setFilteredLogs(filteredData);
+    }
+  };
 
   const fetchSubjects = async () => {
     setIsLoading(true);
@@ -82,10 +100,11 @@ export default function ViewSubjectAttendance() {
         let newData = {
           roll_no: student.roll_no,
           name: student.name,
-          attendance_percentage:
+          attendance_percentage: Number(
             ((student.total_classes - student.absent_classes) /
               student.total_classes) *
-            100,
+              100
+          ),
         };
         tempData.push(newData);
       });
@@ -125,7 +144,7 @@ export default function ViewSubjectAttendance() {
                     },
                   ]}
                 >
-                  <Select placeholder="Select Subject" allowClear>
+                  <Select placeholder="Select Subject">
                     {subjectsList.map((subject) => (
                       <Select.Option value={subject.code}>
                         {subject.subject_name}
@@ -153,7 +172,10 @@ export default function ViewSubjectAttendance() {
                       { label: "Eligible", value: "eligible" },
                       { label: "Not-Eliglible", value: "notEliglible" },
                     ]}
-                    onChange={(value) => setAppliedFilter(value)}
+                    onSelect={(value) => {
+                      setAppliedFilter(value);
+                      handleFilter(value);
+                    }}
                   />
                 </Form.Item>
               </Form>
@@ -172,7 +194,7 @@ export default function ViewSubjectAttendance() {
         <Col span={24} className="my-6">
           <Table
             columns={columns}
-            dataSource={attendanceLog}
+            dataSource={appliedFilter.length > 0 ? filteredLogs : attendanceLog}
             loading={isLoading}
           />
         </Col>
