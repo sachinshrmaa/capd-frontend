@@ -77,7 +77,7 @@ export default function LogSubjectAttendance() {
 
   const fetchStudents = async () => {
     let payload = {
-      subjectCode: subjectCode,
+      subjectId: subjectId,
     };
     try {
       setIsLoading(true);
