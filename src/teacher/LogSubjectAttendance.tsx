@@ -45,7 +45,6 @@ export default function LogSubjectAttendance() {
 
   let subjectId = query.get("subjectId");
   let semesterId = query.get("semId");
-  let subjectCode = query.get("subjectCode");
 
   useEffect(() => {
     fetchStudents();

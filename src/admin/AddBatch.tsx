@@ -1,4 +1,4 @@
-import { Button, Form, Input, Select } from "antd";
+import { Button, Form, Input, Select, message } from "antd";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
@@ -6,6 +6,7 @@ import axios from "axios";
 const { Option } = Select;
 
 export default function AddBatch() {
+  const [notification, notificationHolder] = message.useMessage();
   const [departments, setDepartments] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -41,6 +42,10 @@ export default function AddBatch() {
         { withCredentials: true }
       );
       console.log(res);
+      notification.error({
+        type: "success",
+        content: "Batch added successfully!",
+      });
       setIsLoading(false);
     } catch (error) {
       setIsLoading(false);
@@ -51,6 +56,7 @@ export default function AddBatch() {
 
   return (
     <div>
+      {notificationHolder}
       <div className="mt-2 mb-6">
         <h1 className="font-bold text-lg mb-0">Add Batch</h1>
       </div>

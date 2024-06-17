@@ -28,6 +28,7 @@ import AddSubject from "./admin/AddSubject";
 import { ProtectedRoute } from "./ProtectedRoute";
 import Unauthorized from "./components/Unauthorized";
 import NotFound from "./components/NotFound";
+import AddWards from "./teacher/AddWards";
 
 const router = createBrowserRouter([
   {
@@ -118,10 +119,13 @@ const router = createBrowserRouter([
         element: <TeacherDashboard />,
       },
       {
-        path: "guardian",
+        path: "wards",
         element: <TeacherGuardian />,
       },
-
+      {
+        path: "wards/add",
+        element: <AddWards />,
+      },
       {
         path: "subjects",
         element: <TeacherSubjects />,

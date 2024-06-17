@@ -42,7 +42,7 @@ export default function TeacherDashboardLayout() {
     } else if (e.key === "3") {
       navigate("/teacher/subject/view-attendance");
     } else if (e.key === "4") {
-      navigate("/teacher/guardian");
+      navigate("/teacher/wards");
     }
   };
 
