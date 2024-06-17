@@ -17,7 +17,7 @@ export default function AddTeacher() {
   const fetchDepartments = async () => {
     try {
       const res = await axios.get(
-        "http://localhost:3000/api/v1/academics/list-departments",
+        "https://capd-backend.onrender.com/api/v1/academics/list-departments",
         { withCredentials: true }
       );
       setDepartments(res?.data?.departments);
@@ -37,7 +37,7 @@ export default function AddTeacher() {
     try {
       setIsLoading(true);
       const res = await axios.post(
-        "http://localhost:3000/api/v1/teachers/add-teacher",
+        "https://capd-backend.onrender.com/api/v1/teachers/add-teacher",
         payload,
         { withCredentials: true }
       );

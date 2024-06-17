@@ -70,7 +70,7 @@ export default function StudentAttendance() {
     };
     try {
       const res = await axios.post(
-        "http://localhost:3000/api/v1/academics/list-subjects",
+        "https://capd-backend.onrender.com/api/v1/academics/list-subjects",
         payload,
         { withCredentials: true }
       );
@@ -88,7 +88,7 @@ export default function StudentAttendance() {
     try {
       setIsLoading(true);
       const res = await axios.post(
-        "http://localhost:3000/api/v1/attendance/subject-attendance",
+        "https://capd-backend.onrender.com/api/v1/attendance/subject-attendance",
         payload,
         { withCredentials: true }
       );

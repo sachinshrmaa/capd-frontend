@@ -41,7 +41,7 @@ export default function AdminBatches() {
   const fetchDepartments = async () => {
     try {
       const res = await axios.get(
-        "http://localhost:3000/api/v1/academics/list-departments",
+        "https://capd-backend.onrender.com/api/v1/academics/list-departments",
         { withCredentials: true }
       );
       setDepartments(res?.data?.departments);
@@ -57,7 +57,7 @@ export default function AdminBatches() {
     try {
       setIsLoading(true);
       const res = await axios.post(
-        "http://localhost:3000/api/v1/academics/list-batches",
+        "https://capd-backend.onrender.com/api/v1/academics/list-batches",
         payload,
         { withCredentials: true }
       );
@@ -77,10 +77,10 @@ export default function AdminBatches() {
             <h1 className="font-bold text-lg mb-0">Batches</h1>
             <div>
               <Link to="/admin/batches/add">
-              <Button type="primary" className="flex items-center h-10">
-                <PlusCircleOutlined className="text-lg mr-1" />
-                Add Batches
-              </Button>
+                <Button type="primary" className="flex items-center h-10">
+                  <PlusCircleOutlined className="text-lg mr-1" />
+                  Add Batches
+                </Button>
               </Link>
             </div>
           </div>

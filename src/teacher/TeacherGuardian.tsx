@@ -40,7 +40,7 @@ export default function TeacherGuardian() {
     setIsLoading(true);
     try {
       const res = await axios.get(
-        "http://localhost:3000/api/v1/teachers/list-teacher-wards",
+        "https://capd-backend.onrender.com/api/v1/teachers/list-teacher-wards",
         { withCredentials: true }
       );
       setWards(res?.data?.wards);
