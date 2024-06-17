@@ -27,7 +27,7 @@ const columns = [
     key: "action",
     render: (record: any) => (
       <Link
-        to={`log-attendance?subjectName=${record.subject_name}&subjectCode=${record.code}`}
+        to={`log-attendance?subjectId=${record.subject_id}&subjectCode=${record.code}&semId=${record.semester_id}`}
       >
         <Button type="primary">Log attendance</Button>
       </Link>

@@ -1,8 +1,17 @@
-import { Button, Col, Row, Table, message, Form, Select, Dropdown } from "antd";
+import {
+  Button,
+  Col,
+  Row,
+  Table,
+  message,
+  Form,
+  Select,
+  Dropdown,
+  Menu,
+} from "antd";
 import { useEffect, useState } from "react";
 import { MoreOutlined, PlusCircleOutlined } from "@ant-design/icons";
 import axios from "axios";
-import type { MenuProps } from "antd";
 import { Link } from "react-router-dom";
 import AssignSubjectTeacher from "./AssignSubjectTeacher";
 
@@ -15,6 +24,12 @@ export default function AdminSubjects() {
   const [departments, setDepartments] = useState([]);
   const [semesters, setSemesters] = useState([]);
   const [assignTeacher, setAssignTeacher] = useState(false);
+
+  const [teachers, setTeachers] = useState([]);
+  const [subjectProp, setSubjectProp] = useState({
+    subjectId: "",
+    subjectName: "",
+  });
 
   const columns = [
     {
@@ -35,32 +50,40 @@ export default function AdminSubjects() {
     {
       title: "Action",
       key: "action",
-      render: () => (
-        <Dropdown menu={{ items }} placement="bottomLeft" arrow>
+      render: (record: any) => (
+        <Dropdown
+          overlay={
+            <Menu>
+              <Menu.Item key="1">
+                <Link
+                  to="#"
+                  onClick={() => {
+                    setAssignTeacher(true);
+                    setSubjectProp({
+                      subjectId: record.subject_id,
+                      subjectName: record.subject_name,
+                    });
+                  }}
+                >
+                  Assign Teacher
+                </Link>
+              </Menu.Item>
+              <Menu.Item key="2">
+                <Link to="/admin/subjects/edit">Edit</Link>
+              </Menu.Item>
+              <Menu.Item key="3">
+                <Link to="/admin/subjects/edit">Delete</Link>
+              </Menu.Item>
+            </Menu>
+          }
+          placement="bottomLeft"
+          arrow
+        >
           <Button type="text">
             <MoreOutlined />
           </Button>
         </Dropdown>
       ),
-    },
-  ];
-
-  const items: MenuProps["items"] = [
-    {
-      key: "1",
-      label: (
-        <Link to="#" onClick={() => setAssignTeacher(true)}>
-          Assign Teacher
-        </Link>
-      ),
-    },
-    {
-      key: "2",
-      label: <Link to="/admin/subjects/edit">Edit</Link>,
-    },
-    {
-      key: "3",
-      label: <Link to="/admin/subjects/edit">Delete</Link>,
     },
   ];
 
@@ -128,6 +151,21 @@ export default function AdminSubjects() {
     }
   };
 
+  const fetchTeachers = async (departmentId: number) => {
+    let payload = { department: departmentId };
+    try {
+      const res = await axios.post(
+        "http://localhost:3000/api/v1/teachers/list-teachers",
+        payload,
+        { withCredentials: true }
+      );
+
+      setTeachers(res?.data?.teachers);
+    } catch (error: any) {
+      console.log(error.message);
+    }
+  };
+
   return (
     <div>
       {notificationHolder}
@@ -164,6 +202,7 @@ export default function AdminSubjects() {
                     placeholder="Select Department"
                     onSelect={(value: any) => {
                       fetchSemesters(value);
+                      fetchTeachers(value);
                     }}
                     allowClear
                   >
@@ -219,6 +258,8 @@ export default function AdminSubjects() {
       <AssignSubjectTeacher
         isModalOpen={assignTeacher}
         setIsModalOpen={setAssignTeacher}
+        subjectProp={subjectProp}
+        teachers={teachers}
       />
     </div>
   );

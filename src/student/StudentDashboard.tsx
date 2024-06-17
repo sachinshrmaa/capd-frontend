@@ -128,6 +128,15 @@ export default function StudentDashboard() {
                         </p>
                       </div>
                     );
+                  } else {
+                    return (
+                      <div className="border rounded-lg bg-green-100 py-5 px-4 my-4 flex items-center gap-3">
+                        <ExclamationCircleOutlined className="text-2xl text-slate-700" />
+                        <p>
+                          You have good attendance in <b>{sub.subjectName}</b>.
+                        </p>
+                      </div>
+                    );
                   }
                 })
               )}

@@ -107,7 +107,9 @@ export default function AdminTeachers() {
                 >
                   <Select placeholder="Select Department" allowClear>
                     {departments.map((department: any) => (
-                      <Option value={department.name}>{department.name}</Option>
+                      <Option value={department.department_id}>
+                        {department.name}
+                      </Option>
                     ))}
                   </Select>
                 </Form.Item>
