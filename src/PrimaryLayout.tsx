@@ -25,19 +25,31 @@ import AddStudents from "./admin/AddStudents";
 import AddSemester from "./admin/AddSemester";
 import AddTeacher from "./admin/AddTeacher";
 import AddSubject from "./admin/AddSubject";
+import { ProtectedRoute } from "./ProtectedRoute";
+import Unauthorized from "./components/Unauthorized";
+import NotFound from "./components/NotFound";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <App />,
+    errorElement: <NotFound />,
   },
   {
     path: "/login",
     element: <Login />,
   },
   {
+    path: "/unauthorized",
+    element: <Unauthorized />,
+  },
+  {
     path: "/admin",
-    element: <AdminDashboardLayout />,
+    element: (
+      <ProtectedRoute requiredRole="Admin">
+        <AdminDashboardLayout />
+      </ProtectedRoute>
+    ),
     children: [
       {
         path: "dashboard",
@@ -95,7 +107,11 @@ const router = createBrowserRouter([
   },
   {
     path: "/teacher",
-    element: <TeacherDashboardLayout />,
+    element: (
+      <ProtectedRoute requiredRole="Teacher">
+        <TeacherDashboardLayout />
+      </ProtectedRoute>
+    ),
     children: [
       {
         path: "dashboard",
@@ -122,7 +138,11 @@ const router = createBrowserRouter([
   },
   {
     path: "/student",
-    element: <StudentDashboardLayout />,
+    element: (
+      <ProtectedRoute requiredRole="Student">
+        <StudentDashboardLayout />
+      </ProtectedRoute>
+    ),
     children: [
       {
         path: "dashboard",
