@@ -38,7 +38,7 @@ export default function StudentDashboard() {
     try {
       setIsLoading(true);
       const res = await axios.post(
-        "https://capd-backend.onrender.com/api/v1/attendance/overall-attendance",
+        "http://localhost:3000/api/v1/attendance/overall-attendance",
         payload,
         { withCredentials: true }
       );
@@ -128,16 +128,17 @@ export default function StudentDashboard() {
                         </p>
                       </div>
                     );
-                  } else {
-                    return (
-                      <div className="border rounded-lg bg-green-100 py-5 px-4 my-4 flex items-center gap-3">
-                        <ExclamationCircleOutlined className="text-2xl text-slate-700" />
-                        <p>
-                          You have good attendance in <b>{sub.subjectName}</b>.
-                        </p>
-                      </div>
-                    );
                   }
+                  //else {
+                  //   return (
+                  //     <div className="border rounded-lg bg-green-100 py-5 px-4 my-4 flex items-center gap-3">
+                  //       <ExclamationCircleOutlined className="text-2xl text-slate-700" />
+                  //       <p>
+                  //         You have good attendance in <b>{sub.subjectName}</b>.
+                  //       </p>
+                  //     </div>
+                  //   );
+                  // }
                 })
               )}
             </div>

@@ -1,5 +1,5 @@
 import { Form, Button, message, Input, Table } from "antd";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import axios from "axios";
 import Papa from "papaparse";
@@ -27,6 +27,7 @@ type WardsType = {
 };
 
 export default function AddWards() {
+  const navigate = useNavigate();
   const [notification, notificationHolder] = message.useMessage();
   const [students, setStudents] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -56,16 +57,19 @@ export default function AddWards() {
     try {
       setIsLoading(true);
       const res = await axios.post(
-        "https://capd-backend.onrender.com/api/v1/teachers/add-teacher-wards",
+        "http://localhost:3000/api/v1/teachers/add-teacher-wards",
         payload,
         { withCredentials: true }
       );
       console.log(res.data);
       setIsLoading(false);
-      notification.error({
+      notification.success({
         type: "success",
-        content: "Batch added successfully!",
+        content: "Wards added successfully!",
       });
+      setTimeout(() => {
+        navigate("/teacher/wards");
+      }, 1000);
     } catch (error: any) {
       setIsLoading(false);
       console.log(error.message);
@@ -101,7 +105,7 @@ export default function AddWards() {
           </Form.Item>
           <div className="flex gap-4">
             <Form.Item>
-              <Link to="/admin/students">
+              <Link to="/teacher/wards">
                 <Button type="primary" danger>
                   Cancel
                 </Button>

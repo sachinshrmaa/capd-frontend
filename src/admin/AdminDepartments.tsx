@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { PlusCircleOutlined } from "@ant-design/icons";
+import { MoreOutlined, PlusCircleOutlined } from "@ant-design/icons";
 import { Button, Col, Row, Table } from "antd";
 import axios from "axios";
 import { Link } from "react-router-dom";
@@ -18,7 +18,11 @@ const columns = [
   {
     title: "Action",
     key: "action",
-    // render: (text, record) => <Button>Edit</Button>,
+    render: () => (
+      <Button type="text">
+        <MoreOutlined />
+      </Button>
+    ),
   },
 ];
 
@@ -34,7 +38,7 @@ export default function AdminDepartments() {
     setIsLoading(true);
     try {
       const res = await axios.get(
-        "https://capd-backend.onrender.com/api/v1/academics/list-departments",
+        "http://localhost:3000/api/v1/academics/list-departments",
         { withCredentials: true }
       );
       setDepartments(res?.data?.departments);

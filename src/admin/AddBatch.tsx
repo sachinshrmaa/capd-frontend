@@ -1,11 +1,12 @@
 import { Button, Form, Input, Select, message } from "antd";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
 const { Option } = Select;
 
 export default function AddBatch() {
+  const navigate = useNavigate();
   const [notification, notificationHolder] = message.useMessage();
   const [departments, setDepartments] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -17,7 +18,7 @@ export default function AddBatch() {
   const fetchDepartments = async () => {
     try {
       const res = await axios.get(
-        "https://capd-backend.onrender.com/api/v1/academics/list-departments",
+        "http://localhost:3000/api/v1/academics/list-departments",
         { withCredentials: true }
       );
       setDepartments(res?.data?.departments);
@@ -37,15 +38,18 @@ export default function AddBatch() {
     try {
       setIsLoading(true);
       const res = await axios.post(
-        "https://capd-backend.onrender.com/api/v1/academics/add-batch",
+        "http://localhost:3000/api/v1/academics/add-batch",
         payload,
         { withCredentials: true }
       );
       console.log(res);
-      notification.error({
+      notification.success({
         type: "success",
         content: "Batch added successfully!",
       });
+      setTimeout(() => {
+        navigate("/admin/batches");
+      }, 1000);
       setIsLoading(false);
     } catch (error) {
       setIsLoading(false);

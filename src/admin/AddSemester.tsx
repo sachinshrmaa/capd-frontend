@@ -1,11 +1,13 @@
-import { Button, DatePicker, Form, Input, Select } from "antd";
-import { Link } from "react-router-dom";
+import { Button, DatePicker, Form, Input, Select, message } from "antd";
+import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
 const { Option } = Select;
 
 export default function AddSemester() {
+  const navigate = useNavigate();
+  const [notification, notificationHolder] = message.useMessage();
   const [departments, setDepartments] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [batches, setBatches] = useState([]);
@@ -17,7 +19,7 @@ export default function AddSemester() {
   const fetchDepartments = async () => {
     try {
       const res = await axios.get(
-        "https://capd-backend.onrender.com/api/v1/academics/list-departments",
+        "http://localhost:3000/api/v1/academics/list-departments",
         { withCredentials: true }
       );
       setDepartments(res?.data?.departments);
@@ -32,7 +34,7 @@ export default function AddSemester() {
     };
     try {
       const res = await axios.post(
-        "https://capd-backend.onrender.com/api/v1/academics/list-batches",
+        "http://localhost:3000/api/v1/academics/list-batches",
         payload,
         { withCredentials: true }
       );
@@ -53,11 +55,18 @@ export default function AddSemester() {
     try {
       setIsLoading(true);
       const res = await axios.post(
-        "https://capd-backend.onrender.com/api/v1/academics/add-semester",
+        "http://localhost:3000/api/v1/academics/add-semester",
         payload,
         { withCredentials: true }
       );
       console.log(res);
+      notification.success({
+        type: "success",
+        content: "Semester added successfully!",
+      });
+      setTimeout(() => {
+        navigate("/admin/semesters");
+      }, 1000);
       setIsLoading(false);
     } catch (error) {
       setIsLoading(false);
@@ -68,6 +77,7 @@ export default function AddSemester() {
 
   return (
     <div>
+      {notificationHolder}
       <div className="mt-2 mb-6">
         <h1 className="font-bold text-lg mb-0">Add Semester</h1>
       </div>
@@ -137,7 +147,6 @@ export default function AddSemester() {
               },
             ]}
           >
-            {/* <Input type="text" placeholder="eg: 01-01-2020" /> */}
             <DatePicker />
           </Form.Item>
 
@@ -151,7 +160,6 @@ export default function AddSemester() {
               },
             ]}
           >
-            {/* <Input type="text" placeholder="eg: 30-06-2020" /> */}
             <DatePicker />
           </Form.Item>
 

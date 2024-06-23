@@ -1,10 +1,12 @@
-import { Button, Form, Input } from "antd";
+import { Button, Form, Input, message } from "antd";
 import TextArea from "antd/es/input/TextArea";
 import axios from "axios";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function AddDepartment() {
+  const navigate = useNavigate();
+  const [notification, notificationHolder] = message.useMessage();
   const [isLoading, setIsLoading] = useState(false);
 
   const handleAddDepartment = async (values: any) => {
@@ -15,13 +17,18 @@ export default function AddDepartment() {
     setIsLoading(true);
     try {
       setIsLoading(true);
-      // Add the department
-      const res = await axios.post(
-        "https://capd-backend.onrender.com/api/v1/academics/add-department",
+      await axios.post(
+        "http://localhost:3000/api/v1/academics/add-department",
         payload,
         { withCredentials: true }
       );
-      console.log(res);
+      notification.success({
+        type: "success",
+        content: "Batch added successfully!",
+      });
+      setTimeout(() => {
+        navigate("/admin/departments");
+      }, 1000);
       setIsLoading(false);
     } catch (error) {
       setIsLoading(false);
@@ -32,6 +39,7 @@ export default function AddDepartment() {
 
   return (
     <div>
+      {notificationHolder}
       <div className="mt-2 mb-6">
         <h1 className="font-bold text-lg mb-0">Add Departments</h1>
       </div>

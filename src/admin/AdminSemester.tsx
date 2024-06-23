@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { PlusCircleOutlined } from "@ant-design/icons";
+import { MoreOutlined, PlusCircleOutlined } from "@ant-design/icons";
 import { Button, Col, Row, Table, Form, Select } from "antd";
 import axios from "axios";
 import { Link } from "react-router-dom";
@@ -28,7 +28,11 @@ const columns = [
   {
     title: "Action",
     key: "action",
-    // render: (text, record) => <Button>Edit</Button>,
+    render: () => (
+      <Button type="text">
+        <MoreOutlined />
+      </Button>
+    ),
   },
 ];
 
@@ -44,7 +48,7 @@ export default function AdminSemester() {
   const fetchDepartments = async () => {
     try {
       const res = await axios.get(
-        "https://capd-backend.onrender.com/api/v1/academics/list-departments",
+        "http://localhost:3000/api/v1/academics/list-departments",
         { withCredentials: true }
       );
       setDepartments(res?.data?.departments);
@@ -60,7 +64,7 @@ export default function AdminSemester() {
     };
     try {
       const res = await axios.post(
-        "https://capd-backend.onrender.com/api/v1/academics/list-semesters",
+        "http://localhost:3000/api/v1/academics/list-semesters",
         payload,
         { withCredentials: true }
       );

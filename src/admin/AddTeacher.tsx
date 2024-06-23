@@ -1,4 +1,4 @@
-import { Button, Form, Input, Select } from "antd";
+import { Button, Form, Input, Select, message } from "antd";
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
@@ -7,6 +7,7 @@ const { Option } = Select;
 
 export default function AddTeacher() {
   const navigate = useNavigate();
+  const [notification, notificationHolder] = message.useMessage();
   const [departments, setDepartments] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -17,7 +18,7 @@ export default function AddTeacher() {
   const fetchDepartments = async () => {
     try {
       const res = await axios.get(
-        "https://capd-backend.onrender.com/api/v1/academics/list-departments",
+        "http://localhost:3000/api/v1/academics/list-departments",
         { withCredentials: true }
       );
       setDepartments(res?.data?.departments);
@@ -37,12 +38,18 @@ export default function AddTeacher() {
     try {
       setIsLoading(true);
       const res = await axios.post(
-        "https://capd-backend.onrender.com/api/v1/teachers/add-teacher",
+        "http://localhost:3000/api/v1/teachers/add-teacher",
         payload,
         { withCredentials: true }
       );
       console.log(res);
-      navigate("/admin/teachers");
+      notification.success({
+        type: "success",
+        content: "Teacher added successfully!",
+      });
+      setTimeout(() => {
+        navigate("/admin/teachers");
+      }, 1000);
       setIsLoading(false);
     } catch (error) {
       setIsLoading(false);
@@ -53,8 +60,9 @@ export default function AddTeacher() {
 
   return (
     <div>
+      {notificationHolder}
       <div className="mt-2 mb-6">
-        <h1 className="font-bold text-lg mb-0">Add Batch</h1>
+        <h1 className="font-bold text-lg mb-0">Add Teacher</h1>
       </div>
 
       <div className="bg-slate-100 p-6 rounded-lg">

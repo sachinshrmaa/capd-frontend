@@ -94,7 +94,7 @@ export default function AdminSubjects() {
   const fetchDepartments = async () => {
     try {
       const res = await axios.get(
-        "https://capd-backend.onrender.com/api/v1/academics/list-departments",
+        "http://localhost:3000/api/v1/academics/list-departments",
         { withCredentials: true }
       );
       setDepartments(res?.data?.departments);
@@ -113,7 +113,7 @@ export default function AdminSubjects() {
     };
     try {
       const res = await axios.post(
-        "https://capd-backend.onrender.com/api/v1/academics/list-semesters",
+        "http://localhost:3000/api/v1/academics/list-semesters",
         payload,
         { withCredentials: true }
       );
@@ -135,7 +135,7 @@ export default function AdminSubjects() {
     };
     try {
       const res = await axios.post(
-        "https://capd-backend.onrender.com/api/v1/academics/list-subjects",
+        "http://localhost:3000/api/v1/academics/list-subjects",
         payload,
         { withCredentials: true }
       );
@@ -155,7 +155,7 @@ export default function AdminSubjects() {
     let payload = { department: departmentId };
     try {
       const res = await axios.post(
-        "https://capd-backend.onrender.com/api/v1/teachers/list-teachers",
+        "http://localhost:3000/api/v1/teachers/list-teachers",
         payload,
         { withCredentials: true }
       );
