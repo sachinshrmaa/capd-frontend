@@ -48,7 +48,7 @@ export default function TeacherSubjects() {
     setIsLoading(true);
     try {
       const res = await axios.get(
-        "https://capd-backend.onrender.com/api/v1/teachers/list-teacher-subjects",
+        "http://localhost:3000/api/v1/teachers/list-teacher-subjects",
         { withCredentials: true }
       );
       setSubjectsList(res?.data?.subjects);

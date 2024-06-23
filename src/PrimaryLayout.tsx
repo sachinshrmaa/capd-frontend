@@ -29,6 +29,8 @@ import { ProtectedRoute } from "./ProtectedRoute";
 import Unauthorized from "./components/Unauthorized";
 import NotFound from "./components/NotFound";
 import AddWards from "./teacher/AddWards";
+import ViewWardsAttendance from "./teacher/ViewWardsAttendance";
+import AddWardsAttendance from "./teacher/AddWardsAttendance";
 
 const router = createBrowserRouter([
   {
@@ -125,6 +127,14 @@ const router = createBrowserRouter([
       {
         path: "wards/add",
         element: <AddWards />,
+      },
+      {
+        path: "wards/add-attendance",
+        element: <AddWardsAttendance />,
+      },
+      {
+        path: "wards/attendance",
+        element: <ViewWardsAttendance />,
       },
       {
         path: "subjects",

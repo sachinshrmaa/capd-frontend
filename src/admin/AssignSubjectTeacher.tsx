@@ -1,5 +1,6 @@
 import { Button, Form, Modal, Select } from "antd";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 type AssignSubjectTeacherProps = {
   isModalOpen: boolean;
@@ -14,6 +15,7 @@ export default function AssignSubjectTeacher({
   teachers,
   subjectProp,
 }: AssignSubjectTeacherProps) {
+  const navigate = useNavigate();
   const handleAssignTeacher = async (e: any) => {
     let payload = {
       subjectId: subjectProp.subjectId,
@@ -21,11 +23,12 @@ export default function AssignSubjectTeacher({
     };
     try {
       const res = await axios.post(
-        "https://capd-backend.onrender.com/api/v1/teachers/assign-subject-teacher",
+        "http://localhost:3000/api/v1/teachers/assign-subject-teacher",
         payload,
         { withCredentials: true }
       );
       console.log(res);
+      navigate("/admin/subjects");
       setIsModalOpen(false);
     } catch (error: any) {
       setIsModalOpen(false);

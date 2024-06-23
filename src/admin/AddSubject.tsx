@@ -1,11 +1,13 @@
-import { Button, Form, Input, Select } from "antd";
-import { Link } from "react-router-dom";
+import { Button, Form, Input, Select, message } from "antd";
+import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
 const { Option } = Select;
 
 export default function AddSubject() {
+  const navigate = useNavigate();
+  const [notification, notificationHolder] = message.useMessage();
   const [departments, setDepartments] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [batches, setBatches] = useState([]);
@@ -18,7 +20,7 @@ export default function AddSubject() {
   const fetchDepartments = async () => {
     try {
       const res = await axios.get(
-        "https://capd-backend.onrender.com/api/v1/academics/list-departments",
+        "http://localhost:3000/api/v1/academics/list-departments",
         { withCredentials: true }
       );
       setDepartments(res?.data?.departments);
@@ -33,7 +35,7 @@ export default function AddSubject() {
     };
     try {
       const res = await axios.post(
-        "https://capd-backend.onrender.com/api/v1/academics/list-batches",
+        "http://localhost:3000/api/v1/academics/list-batches",
         payload,
         { withCredentials: true }
       );
@@ -49,7 +51,7 @@ export default function AddSubject() {
     };
     try {
       const res = await axios.post(
-        "https://capd-backend.onrender.com/api/v1/academics/list-semesters",
+        "http://localhost:3000/api/v1/academics/list-semesters",
         payload,
         { withCredentials: true }
       );
@@ -70,11 +72,18 @@ export default function AddSubject() {
     try {
       setIsLoading(true);
       const res = await axios.post(
-        "https://capd-backend.onrender.com/api/v1/academics/add-subject",
+        "http://localhost:3000/api/v1/academics/add-subject",
         payload,
         { withCredentials: true }
       );
       console.log(res);
+      notification.success({
+        type: "success",
+        content: "Subject added successfully!",
+      });
+      setTimeout(() => {
+        navigate("/admin/subjects");
+      }, 1000);
       setIsLoading(false);
     } catch (error) {
       setIsLoading(false);
@@ -85,6 +94,7 @@ export default function AddSubject() {
 
   return (
     <div>
+      {notificationHolder}
       <div className="mt-2 mb-6">
         <h1 className="font-bold text-lg mb-0">Add Subject</h1>
       </div>

@@ -40,7 +40,7 @@ export default function TeacherGuardian() {
     setIsLoading(true);
     try {
       const res = await axios.get(
-        "https://capd-backend.onrender.com/api/v1/teachers/list-teacher-wards",
+        "http://localhost:3000/api/v1/teachers/list-teacher-wards",
         { withCredentials: true }
       );
       setWards(res?.data?.wards);
@@ -56,11 +56,22 @@ export default function TeacherGuardian() {
       <Col span={24} className="py-3">
         <div className="flex justify-between items-center">
           <h1 className="font-bold text-lg mb-0">Teacher Wards</h1>
-          <div>
+          <div className="flex gap-4">
+            <Link to="/teacher/wards/attendance">
+              <Button type="default" className="flex items-center h-10">
+                View Wards Attendance
+              </Button>
+            </Link>
+            <Link to="/teacher/wards/add-attendance">
+              <Button type="default" className="flex items-center h-10">
+                <PlusCircleOutlined className="text-lg mr-1" />
+                Add Wards Attendance
+              </Button>
+            </Link>
             <Link to="/teacher/wards/add">
               <Button type="primary" className="flex items-center h-10">
                 <PlusCircleOutlined className="text-lg mr-1" />
-                Add Wards
+                Import Wards
               </Button>
             </Link>
           </div>

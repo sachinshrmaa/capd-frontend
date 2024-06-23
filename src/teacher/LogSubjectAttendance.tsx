@@ -81,7 +81,7 @@ export default function LogSubjectAttendance() {
     try {
       setIsLoading(true);
       const res = await axios.post(
-        "https://capd-backend.onrender.com/api/v1/attendance/list-students",
+        "http://localhost:3000/api/v1/attendance/list-students",
         payload,
         { withCredentials: true }
       );
@@ -110,7 +110,7 @@ export default function LogSubjectAttendance() {
     try {
       setIsSubmitting(true);
       const res = await axios.post(
-        "https://capd-backend.onrender.com/api/v1/attendance/log-attendance",
+        "http://localhost:3000/api/v1/attendance/log-attendance",
         payload,
         { withCredentials: true }
       );
