@@ -23,7 +23,9 @@ export default function AssignSubjectTeacher({
     };
     try {
       const res = await axios.post(
-        "http://localhost:3000/api/v1/teachers/assign-subject-teacher",
+        `${
+          import.meta.env.VITE_BACKEND_API_URL
+        }/teachers/assign-subject-teacher`,
         payload,
         { withCredentials: true }
       );

@@ -45,7 +45,7 @@ export default function ViewWardsAttendance() {
     try {
       setIsLoading(true);
       const res = await axios.get(
-        "http://localhost:3000/api/v1/teachers/list-wards-attendance",
+        `${import.meta.env.VITE_BACKEND_API_URL}/teachers/list-wards-attendance`,
         { withCredentials: true }
       );
 

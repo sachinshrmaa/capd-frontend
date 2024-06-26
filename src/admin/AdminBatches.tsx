@@ -27,7 +27,7 @@ const columns = [
     key: "action",
     render: () => (
       <Button type="text">
-        <MoreOutlined/>
+        <MoreOutlined />
       </Button>
     ),
   },
@@ -45,7 +45,7 @@ export default function AdminBatches() {
   const fetchDepartments = async () => {
     try {
       const res = await axios.get(
-        "http://localhost:3000/api/v1/academics/list-departments",
+        `${import.meta.env.VITE_BACKEND_API_URL}/academics/list-departments`,
         { withCredentials: true }
       );
       setDepartments(res?.data?.departments);
@@ -61,7 +61,7 @@ export default function AdminBatches() {
     try {
       setIsLoading(true);
       const res = await axios.post(
-        "http://localhost:3000/api/v1/academics/list-batches",
+        `${import.meta.env.VITE_BACKEND_API_URL}/academics/list-batches`,
         payload,
         { withCredentials: true }
       );

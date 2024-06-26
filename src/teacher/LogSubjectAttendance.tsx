@@ -81,7 +81,7 @@ export default function LogSubjectAttendance() {
     try {
       setIsLoading(true);
       const res = await axios.post(
-        "http://localhost:3000/api/v1/attendance/list-students",
+        `${import.meta.env.VITE_BACKEND_API_URL}/attendance/list-students`,
         payload,
         { withCredentials: true }
       );
@@ -110,7 +110,7 @@ export default function LogSubjectAttendance() {
     try {
       setIsSubmitting(true);
       const res = await axios.post(
-        "http://localhost:3000/api/v1/attendance/log-attendance",
+        `${import.meta.env.VITE_BACKEND_API_URL}/attendance/log-attendance`,
         payload,
         { withCredentials: true }
       );

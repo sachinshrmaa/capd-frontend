@@ -38,7 +38,7 @@ export default function StudentDashboard() {
     try {
       setIsLoading(true);
       const res = await axios.post(
-        "http://localhost:3000/api/v1/attendance/overall-attendance",
+        `${import.meta.env.VITE_BACKEND_API_URL}/attendance/overall-attendance`,
         payload,
         { withCredentials: true }
       );

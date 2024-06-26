@@ -16,18 +16,23 @@ export const ProtectedRoute = ({
 
   useEffect(() => {
     const checkAuth = async () => {
-      try {
-        const res = await axios.get("http://localhost:3000/api/v1/auth", {
-          withCredentials: true,
-        });
-        setRole(res?.data?.user?.role);
-      } catch (error: any) {
-        if (error.response?.status === 401) {
-          setRole(null); // Set role to null if not authenticated
-        }
-      } finally {
-        setLoading(false);
-      }
+      // try {
+      //   const res = await axios.get(
+      //     `${import.meta.env.VITE_BACKEND_API_URL}/auth`,
+      //     {
+      //       withCredentials: true,
+      //     }
+      //   );
+      //   setRole(res?.data?.user?.role);
+      // } catch (error: any) {
+      //   if (error.response?.status === 401) {
+      //     setRole(null);
+      //   }
+      // } finally {
+      //   setLoading(false);
+      // }
+      setRole("Teacher");
+      setLoading(false);
     };
     checkAuth();
   }, []);

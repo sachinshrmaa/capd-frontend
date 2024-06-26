@@ -1,4 +1,4 @@
-import { Dropdown } from "antd";
+import { Button, Dropdown } from "antd";
 import { LogoutOutlined, UserOutlined } from "@ant-design/icons";
 import Link from "antd/es/typography/Link";
 import { useNavigate } from "react-router-dom";
@@ -35,17 +35,26 @@ export default function NavBar() {
           className="h-10 w-160 md:h-14 md:w-200"
         />
         <div>
-          <Dropdown
-            menu={{
-              items,
-            }}
-            placement="bottom"
-            arrow
-          >
-            <Link className="text-white rounded-full bg-slate-500 p-3 inline-flex items-center justify-center">
-              <UserOutlined className="text-white text-md md:text-2xl" />
+          {user ? (
+            <Dropdown
+              menu={{
+                items,
+              }}
+              placement="bottom"
+              arrow
+            >
+              <Link className="text-white rounded-full bg-slate-500 p-3 inline-flex items-center justify-center">
+                <UserOutlined className="text-white text-md md:text-2xl" />
+              </Link>
+            </Dropdown>
+          ) : (
+            <Link
+              href="/login"
+              className="bg-orange-300 py-3 px-10 rounded text-blue-900 font-semibold hover:bg-orange-100 transition-colors duration-300"
+            >
+              Login
             </Link>
-          </Dropdown>
+          )}
         </div>
       </nav>
     </div>
