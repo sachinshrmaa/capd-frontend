@@ -17,13 +17,16 @@ export const ProtectedRoute = ({
   useEffect(() => {
     const checkAuth = async () => {
       try {
-        const res = await axios.get("http://localhost:3000/api/v1/auth", {
-          withCredentials: true,
-        });
+        const res = await axios.get(
+          `${import.meta.env.VITE_BACKEND_API_URL}/auth`,
+          {
+            withCredentials: true,
+          }
+        );
         setRole(res?.data?.user?.role);
       } catch (error: any) {
         if (error.response?.status === 401) {
-          setRole(null); // Set role to null if not authenticated
+          setRole(null);
         }
       } finally {
         setLoading(false);

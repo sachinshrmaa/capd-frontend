@@ -47,7 +47,7 @@ export default function AdminStudents() {
   const fetchDepartments = async () => {
     try {
       const res = await axios.get(
-        "http://localhost:3000/api/v1/academics/list-departments",
+        `${import.meta.env.VITE_BACKEND_API_URL}/academics/list-departments`,
         { withCredentials: true }
       );
       setDepartments(res?.data?.departments);
@@ -66,7 +66,7 @@ export default function AdminStudents() {
     };
     try {
       const res = await axios.post(
-        "http://localhost:3000/api/v1/academics/list-batches",
+        `${import.meta.env.VITE_BACKEND_API_URL}/academics/list-batches`,
         payload,
         { withCredentials: true }
       );
@@ -84,7 +84,7 @@ export default function AdminStudents() {
     };
     try {
       const res = await axios.post(
-        "http://localhost:3000/api/v1/students/list-students",
+        `${import.meta.env.VITE_BACKEND_API_URL}/students/list-students`,
         payload,
         { withCredentials: true }
       );

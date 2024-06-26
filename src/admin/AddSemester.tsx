@@ -19,7 +19,7 @@ export default function AddSemester() {
   const fetchDepartments = async () => {
     try {
       const res = await axios.get(
-        "http://localhost:3000/api/v1/academics/list-departments",
+        `${import.meta.env.VITE_BACKEND_API_URL}/academics/list-departments`,
         { withCredentials: true }
       );
       setDepartments(res?.data?.departments);
@@ -34,7 +34,7 @@ export default function AddSemester() {
     };
     try {
       const res = await axios.post(
-        "http://localhost:3000/api/v1/academics/list-batches",
+        `${import.meta.env.VITE_BACKEND_API_URL}/academics/list-batches`,
         payload,
         { withCredentials: true }
       );
@@ -55,7 +55,7 @@ export default function AddSemester() {
     try {
       setIsLoading(true);
       const res = await axios.post(
-        "http://localhost:3000/api/v1/academics/add-semester",
+        `${import.meta.env.VITE_BACKEND_API_URL}/academics/add-semester`,
         payload,
         { withCredentials: true }
       );

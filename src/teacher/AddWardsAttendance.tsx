@@ -48,7 +48,7 @@ export default function AddWardsAttendance() {
     try {
       setIsLoading(true);
       const res = await axios.get(
-        "http://localhost:3000/api/v1/teachers/list-teacher-wards",
+        `${import.meta.env.VITE_BACKEND_API_URL}/teachers/list-teacher-wards`,
         { withCredentials: true }
       );
       const studentsWithKeys = res?.data?.wards.map((student: any) => ({
@@ -73,7 +73,7 @@ export default function AddWardsAttendance() {
     try {
       setIsSubmitting(true);
       const res = await axios.post(
-        "http://localhost:3000/api/v1/teachers/add-counselling-log",
+        `${import.meta.env.VITE_BACKEND_API_URL}/teachers/add-counselling-log`,
         payload,
         { withCredentials: true }
       );

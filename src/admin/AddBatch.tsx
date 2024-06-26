@@ -18,7 +18,7 @@ export default function AddBatch() {
   const fetchDepartments = async () => {
     try {
       const res = await axios.get(
-        "http://localhost:3000/api/v1/academics/list-departments",
+        `${import.meta.env.VITE_BACKEND_API_URL}/academics/list-departments`,
         { withCredentials: true }
       );
       setDepartments(res?.data?.departments);
@@ -38,7 +38,7 @@ export default function AddBatch() {
     try {
       setIsLoading(true);
       const res = await axios.post(
-        "http://localhost:3000/api/v1/academics/add-batch",
+        `${import.meta.env.VITE_BACKEND_API_URL}/academics/add-batch`,
         payload,
         { withCredentials: true }
       );

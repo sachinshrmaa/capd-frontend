@@ -18,7 +18,7 @@ export default function AddTeacher() {
   const fetchDepartments = async () => {
     try {
       const res = await axios.get(
-        "http://localhost:3000/api/v1/academics/list-departments",
+        `${import.meta.env.VITE_BACKEND_API_URL}/academics/list-departments`,
         { withCredentials: true }
       );
       setDepartments(res?.data?.departments);
@@ -38,7 +38,7 @@ export default function AddTeacher() {
     try {
       setIsLoading(true);
       const res = await axios.post(
-        "http://localhost:3000/api/v1/teachers/add-teacher",
+        `${import.meta.env.VITE_BACKEND_API_URL}/teachers/add-teacher`,
         payload,
         { withCredentials: true }
       );

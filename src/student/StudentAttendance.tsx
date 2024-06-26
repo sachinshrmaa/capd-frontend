@@ -70,7 +70,7 @@ export default function StudentAttendance() {
     };
     try {
       const res = await axios.post(
-        "http://localhost:3000/api/v1/academics/list-subjects",
+        `${import.meta.env.VITE_BACKEND_API_URL}/academics/list-subjects`,
         payload,
         { withCredentials: true }
       );
@@ -88,7 +88,7 @@ export default function StudentAttendance() {
     try {
       setIsLoading(true);
       const res = await axios.post(
-        "http://localhost:3000/api/v1/attendance/subject-attendance",
+        `${import.meta.env.VITE_BACKEND_API_URL}/attendance/subject-attendance`,
         payload,
         { withCredentials: true }
       );

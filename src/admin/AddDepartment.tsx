@@ -18,7 +18,7 @@ export default function AddDepartment() {
     try {
       setIsLoading(true);
       await axios.post(
-        "http://localhost:3000/api/v1/academics/add-department",
+        `${import.meta.env.VITE_BACKEND_API_URL}/academics/add-department`,
         payload,
         { withCredentials: true }
       );
